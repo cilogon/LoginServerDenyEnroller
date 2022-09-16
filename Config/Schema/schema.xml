@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+
+<schema version="0.3">
+    <table name="login_server_deny_enrollers">
+        <field name="id" type="I">
+            <key />
+            <autoincrement />
+        </field>
+        <field name="co_enrollment_flow_wedge_id" type="I">
+            <constraint>REFERENCES cm_co_enrollment_flow_wedges(id)</constraint>
+        </field>
+        <field name="env_login_server" type="C" size="64" />
+        <field name="deny_github" type="L" />
+        <field name="deny_google" type="L" />
+        <field name="deny_microsoft" type="L" />
+        <field name="deny_orcid" type="L" />
+        <field name="deny_redirect" type="C" size="256" />
+        <field name="created" type="T" />
+        <field name="modified" type="T" />
+        <field name="revision" type="I" />
+        <field name="deleted" type="L" />
+        <field name="actor_identifier" type="C" size="256" />
+        <field name="login_server_deny_enroller_id" type="I">
+            <constraint>REFERENCES cm_login_server_deny_enrollers(id)</constraint>
+        </field>
+        <index name="login_server_deny_enrollers_i1">
+            <col>co_enrollment_flow_wedge_id</col>
+        </index>
+        <index name="login_server_deny_enrollers_i2">
+            <col>login_server_deny_enroller_id</col>
+        </index>
+    </table>
+
+    <table name="saml_login_servers">
+        <field name="id" type="I">
+            <key />
+            <autoincrement />
+        </field>
+        <field name="login_server_deny_id" type="I">
+            <notnull />
+            <constraint>REFERENCES cm_login_server_deny_enrollers(id)</constraint>
+        </field>
+        <field name="entity_id" type="C" size="256" />
+        <field name="created" type="T" />
+        <field name="modified" type="T" />
+
+        <index name="saml_login_servers_i1">
+            <col>login_server_deny_id</col>
+        </index>
+    </table>
+
+</schema>
